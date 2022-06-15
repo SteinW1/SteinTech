@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="content">
+        <h1>This is the content</h1>
+        {% for post in posts %}
+            <a href="{% url 'post-detail' post.primary_key %}"> {{ post.title }} </a>
+            <p>{{ post.author }}</p>
+            <p></p>
+        {% endfor %}
+    </div>
+{% endblock content %}
