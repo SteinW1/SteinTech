@@ -1,7 +1,7 @@
 from django import forms
 from .models import Post
 from recipes.models import Recipe, Ingredient
-
+'''
 class PostForm(forms.Form):
     title = forms.CharField(
         required=True,
@@ -29,3 +29,4 @@ class PostForm(forms.Form):
         widget=forms.RadioSelect(
             attr={},
         ))
+'''

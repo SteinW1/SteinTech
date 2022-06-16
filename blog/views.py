@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from recipes.models import Recipe, Ingredient
 
@@ -7,7 +8,6 @@ def home(request):
     context = {
         'blog_view_name': 'home',
         'posts': Post.objects.all(),
-        'recipes': Recipe.objects.all(), #delete this
     }
     return render(request, 'blog/home.html', context)
 
@@ -21,16 +21,23 @@ class PostDetailView(DetailView):
         #add a QuerySet of all recipes
         context['recipes'] = Recipe.objects.all()
         context['ingredients'] = Ingredient.objects.all()
-        print(context['ingredients'])
         
         return context
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     
-    # fields to be displayed
+    # fields to be displayed in the form
     fields = [
         'title',
-        'author',
         'post_type',
     ]
+    
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+'''
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+'''
