@@ -24,16 +24,24 @@ class PostDetailView(DetailView):
         
         return context
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+#class PostCreateView(LoginRequiredMixin, CreateView
+class PostCreateView(CreateView):
     model = Post
-    
+    model2 = Recipe
+
     # fields to be displayed in the form
     fields = [
         'title',
         'post_type',
     ]
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["post_type_list"] = Post.post_types
+        return context
+    
     def form_valid(self, form):
+        '''This method is called when valid form data has been POSTed. '''
         print(form.cleaned_data)
         form.instance.author = self.request.user
         return super().form_valid(form)

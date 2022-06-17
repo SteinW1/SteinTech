@@ -7,7 +7,11 @@
  
             <!-- Using the formset -->
             {{ form.as_p }}
-     
+            
+            {% for i in post_type_list %}
+                <input type="radio" id='{{ i.1 }}' name="post_type" value='{{ i.1 }}'>
+                <label for='{{ i.1 }}'>{{ i.1 }}</label><br>
+            {% endfor %}
             <input type="submit" value="Submit">
         </form>
     </div>
