@@ -2,8 +2,7 @@
 {% block content %}
     <div class="content">
         {% for post in posts %}
-            <a href="{% url 'post-detail' post.primary_key %}"> {{ post.title }} </a>
-            <p>{{ post.author }}</p>
+            <a href="{% url 'post-detail' post.primary_key %}"> {{ post.pk }} - {{ post.title }}</a>
             <p></p>
         {% endfor %}
     </div>
