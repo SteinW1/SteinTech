@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post
+from .models import Post, Article
 from .forms import PostForm, ArticleForm
 from recipes.forms import RecipeForm
 from recipes.models import Recipe, Ingredient
@@ -39,34 +39,22 @@ class PostCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["post_type_list"] = Post.post_types
-        
         for post_type in Post.post_types:
-            #func = getattr(Post.post_types, post_type[1])
-            #form_func = f'{post_type[1]}Form'
             context[f'form_{post_type[0]}'] = globals()[f'{post_type[1]}Form']()
-       
-       
-       
-       
-        print(context)
-        context["form"] = PostForm()
-        context["form2"] = RecipeForm()
-        #print(context)
         return context
 
     def form_valid(self, form):
         '''This method is called when valid form data has been POSTed. '''
-        print(form.data)
-        if form.data['post_type_radio'] == 'Recipe':
-            print('$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        #print(form.data)
         print(form.cleaned_data)
         form.instance.author = self.request.user
         return super().form_valid(form)
     
+    '''
     def post(self, request):
         super(PostCreateView, self).post(request)
         return redirect('/')
-
+    '''
 '''
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 '''
