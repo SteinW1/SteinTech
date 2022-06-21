@@ -1,5 +1,6 @@
 from django.db import models
 from blog.models import Post
+from django.contrib.auth.models import User
 
 class Recipe(models.Model):
     post = models.OneToOneField(
@@ -8,7 +9,6 @@ class Recipe(models.Model):
         primary_key=True,
     )
     
-    source = models.CharField(max_length=100)
     difficulty_choices = [
         ('hard', 'Hard'),
         ('medium', 'Medium'),
@@ -18,10 +18,12 @@ class Recipe(models.Model):
     servings = models.CharField(max_length=3)
     prep_time = models.DurationField()
     cook_time = models.DurationField()
+    note = models.TextField()
     
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=30)
+    unit_of_measurement = models.CharField(max_length=10)
     quantity = models.CharField(max_length=10)
     
     def __str__(self):

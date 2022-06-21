@@ -31,10 +31,7 @@ class PostCreateView(CreateView):
     model = Post
 
     # fields to be displayed in the form
-    fields = [
-        'title',
-        'post_type',
-    ]
+    fields = ['post_type']
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,16 +42,60 @@ class PostCreateView(CreateView):
 
     def form_valid(self, form):
         '''This method is called when valid form data has been POSTed. '''
-        #print(form.data)
+        print('form is valid')
+        print(form.data)
         print(form.cleaned_data)
         form.instance.author = self.request.user
+        print(form.cleaned_data['submit'][0])
+        if form.cleaned_data['submit'][0] == 'recipe':
+            print('that was a recipe')
+        elif form.cleaned_data['submit'][0] == 'article':
+            print('that was an article')
+        form.instance.author = self.form.cleaned_data.author
+        
         return super().form_valid(form)
-    
+        
+    def form_invalid(self, form):
+        print('form is invalid')
+        '''
+        print(form.data)
+        print(form.cleaned_data)
+        '''
+        response = super().form_invalid(form)
+        return response
     '''
     def post(self, request):
-        super(PostCreateView, self).post(request)
+        print(request.POST)
+        return(super(PostCreateView, self).post(request))
         return redirect('/')
     '''
 '''
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 '''
+
+class ArticleCreateView(CreateView):
+    model = Article
+
+    # fields to be displayed in the form
+    fields = [
+        'article_title', 
+        'article_text',
+        ]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        '''This method is called when valid form data has been POSTed. '''
+        print('form is valid')
+        print(form.data)
+        print(form.cleaned_data)
+        return super().form_valid(form)
+        
+    def form_invalid(self, form):
+        print('form is invalid')
+        print(form.data)
+        print(form.cleaned_data)
+        response = super().form_invalid(form)
+        return response

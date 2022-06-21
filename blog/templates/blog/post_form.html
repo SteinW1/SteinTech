@@ -6,29 +6,33 @@
             <input type="radio" id='id_radio_{{ i.1 }}' name="post_type_radio" value='{{ i.1 }}'>
             <label for='id_radio_{{ i.1 }}'>{{ i.1 }}</label><br>
         {% endfor %}
-        
+        <div>
+            
+        {% comment "" %}
+        {% include "_item.html" %}
+        {% endcomment %}
+
         <form method="POST" name="form_recipe" enctype="multipart/form-data">
-            <!-- Security token -->
             {% csrf_token %}
- 
-            <!-- Using the formset -->   
+            {{ form.title }}
             {{ form_recipe.as_p }}
+            {{ form.errors }}
+            {{ form.non_form_errors }}
             {{ formset.non_form_errors }}
-            <input type="submit" value="Submit">
+            {{ formset.errors }}
+            <button type="submit" name="submit" value="recipe">Submit</button>
         </form>
-        
+        </div>
+
+        <div>
         <form method="POST" name="form_article" enctype="multipart/form-data">
-            <!-- Security token -->
             {% csrf_token %}
-        
-            <!-- Using the formset --> 
             {{ form_article.as_p }}
-            {{ form.as_p }}
-            <input type="submit" value="Submit">
+            {{ formset.non_form_errors }}
+            {{ formset.errors }}
+            <button type="submit" name="submit" value="article">Submit</button>
         </form>
-        
+        </div>
+
     </div>
-    <script>
-        
-    </script>
 {% endblock content %}

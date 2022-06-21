@@ -24,7 +24,7 @@ class PostForm(forms.Form):
 )
 
 class ArticleForm(forms.Form):
-    articel_title = forms.CharField(
+    article_title = forms.CharField(
         required=True,
         label='Title',
         widget=forms.TextInput(

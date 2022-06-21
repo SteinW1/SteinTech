@@ -7,9 +7,8 @@ class RecipeForm(forms.Form):
         label='Recipe Title',
         widget=forms.TextInput(
             attrs={'placeholder':'What\'s the recipe\'s name?'
-            },
-        )
-    )
+                },
+        ))
     
     source = forms.CharField(
         required=True,
