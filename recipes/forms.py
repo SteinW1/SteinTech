@@ -47,3 +47,10 @@ class RecipeForm(forms.Form):
             max_digits=4,
             decimal_places=2
         )
+
+    note = forms.CharField(
+        required=True,
+        label='notes',
+        widget=forms.Textarea(
+            attrs={'placeholder':'Put recipe notes here.'}
+        ))

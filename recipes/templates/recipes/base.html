@@ -4,8 +4,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
-        <link rel="icon"href="{% static 'main/favicon.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'recipes/main.css' %}">
+        <link rel="icon"href="{% static 'recipes/favicon.ico' %}">
+        
+        <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}"></script>
+        <script src="{% static 'recipes/main.js' %}"></script>
         
         {% if title %}
             <title>{{ title }}</title>
@@ -15,23 +18,26 @@
     </head>
     <body>
         <ul class="nav-bar" id="navbar">
-            <a class="{% if request.get_full_path == '/' %}active{% endif %}" href="{% url 'blog-home' %}">Home</a>
+            <a class="{% if request.get_full_path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+            <a class="{% if request.get_full_path == '/recipes/' %}active{% endif %}" href="{% url 'recipe-list' %}">Recipes</a>
+            <a>My Menu</a>
             <a class="{% if request.get_full_path == '/contact/' %}active{% endif %}" href="{% url 'contact-form' %}">Contact</a>
             <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="responsiveNavbar()">&#9776;</a>
         </ul>
-        <header></header>
         <main>
             <div class="header"></div>
             <div class="content-column-container">
                 <div class="content-column side-content-column"></div>
-                <div class="content-column middle-content-column">{% block content %}{% endblock content %}</div>
+                <div class="content-column middle-content-column">
+                    {% block content %}{% endblock content %}
+                </div>
                 <div class="content-column side-content-column"></div>
             </div>
             <div class = "footer">
                 
-            <a href="{% url 'post-create' %}">Create Post</a>
-            <p></p>
-            <a href="{% url 'admin:index' %}" %}>Admin</a
+                <a href="{% url 'recipe-create' %}">New Recipe</a>
+                <p></p>
+                <a href="{% url 'admin:index' %}" %}>Admin</a>
             </div>
         </main>
     </body>

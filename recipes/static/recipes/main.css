@@ -104,7 +104,7 @@ button.hover {
 }
 
 .middle-content-column {
-    flex: 2;
+    flex: 3;
 }
 
 /* Make columns stack into rows when on mobile device */
@@ -115,39 +115,4 @@ button.hover {
 }
 
 .content {
-}
-
-.projects-grid-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 25px;
-    border:1px solid var(--white);
-}
-
-.projects-grid-item {
-    background-color: var(--white);
-    border: 1px solid var(--secondaryColor);
-    padding: 20px;
-}
-
-.projects-grid-item:hover {
-    border: 1px solid var(--primaryColor);
-    transition-duration: 0.4s;
-}
-
-.project-grid-item-title {
-    color: var(--black);
-    border-bottom-style: solid;
-    border-width: 1px;
-    border-color: var(--secondaryColor);
-}
-
-.project-grid-item-description {
-    color: var(--black);
-}
-
-.project-container {
-    border: 1px solid var(--secondaryColor);
-    padding: 0px 50px;
-    margin: 20px 200px;
 }

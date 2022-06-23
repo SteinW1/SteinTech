@@ -4,7 +4,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.conf import settings
 from .forms import ContactForm
-import requests # import requests module for easyier http for google recaptcha API
+import requests # import requests module for easier http for google recaptcha API
 
 def contact(request):
     

@@ -1,0 +1,22 @@
+{% extends "recipes/base.html" %}
+{% block content %}
+    <div>
+        <h1>{{ recipe.title }}</h1>
+        <p>{{ recipe.difficulty }}</p>
+        <p>Posted By: {{ recipe.author }} - Source: {{ recipe.source }}</p>
+        <p>Last Edit: {{ recipe.date_last_edited }}</p>
+        <h3>Ingredients</h3>
+        {% for ingredient in recipe.ingredient_set.all %}
+            <p>{{ ingredient.quantity }} {{ ingredient.unit_of_measurement }} {{ ingredient.ingredient }}</p>                
+        {% empty %}
+            <p>This recipe has no ingredients recorded.</p>
+        {% endfor %}
+        {% if recipe.note %}
+            <h5> Recipe Notes:</h5>
+            <h6>{{ recipe.note }}</h6>
+        {% endif %}
+    </div>
+    <div>
+        <a href="/{{ recipe.pk }}/edit">Edit</a>
+    </div>
+{% endblock content %}

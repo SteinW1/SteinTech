@@ -1,0 +1,9 @@
+add edit/update page for recipes
+make recipes searchable
+make custom login page
+add saving recipes to user list feature
+fix pagination UI on recipes list view
+make editing only available to admins and owner
+edit the delete recipe view to better text
+add feature to flag new recipes for admin review
+allow recipes to be sorted by date posted

@@ -1,14 +1,14 @@
 from django.db import models
-from blog.models import Post
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 class Recipe(models.Model):
-    post = models.OneToOneField(
-        Post,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    
+    primary_key = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=150)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(auto_now_add=True)
+    date_last_edited = models.DateTimeField(auto_now=True)
+    source = models.CharField(max_length=100)
     difficulty_choices = [
         ('hard', 'Hard'),
         ('medium', 'Medium'),
@@ -18,7 +18,10 @@ class Recipe(models.Model):
     servings = models.CharField(max_length=3)
     prep_time = models.DurationField()
     cook_time = models.DurationField()
-    note = models.TextField()
+    note = models.TextField(blank=True, default='')
+    
+    def get_absolute_url(self):
+        return reverse('recipe-detail', kwargs={'pk': self.pk})
     
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
