@@ -1,10 +1,12 @@
 {% extends "recipes/base.html" %}
 {% block content %}
-    <form method="POST" name="recipe_form" enctype="multipart/form-data">
+<div>
+    <form method="POST" name="login_form" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         {{ formset.non_form_errors }}
         {{ formset.errors }}
         <button type="Submit" name="Submit" value="Submit">Submit</button>
     </form>
+</div>
 {% endblock content %}

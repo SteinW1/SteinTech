@@ -3,7 +3,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Update"> 
-        <a href="/{{ recipe.pk }}/delete">Delete</a>
+        <button type="Submit" name="Submit" value="Update">Update</button>
+        <a href="{% url 'recipe-delete' recipe.pk %}">Delete</a>
     </form>
 {% endblock content %}

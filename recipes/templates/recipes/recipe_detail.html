@@ -16,7 +16,9 @@
             <h6>{{ recipe.note }}</h6>
         {% endif %}
     </div>
+    {% if recipe.author ==  user or user.is_staff == True %}
     <div>
-        <a href="/{{ recipe.pk }}/edit">Edit</a>
+        <a href="{% url 'recipe-update' recipe.pk %}">Edit</a>
     </div>
+    {% endif %}
 {% endblock content %}

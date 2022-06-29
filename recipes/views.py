@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils.text import slugify
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import RecipeForm
@@ -47,17 +48,14 @@ class RecipeCreateView(CreateView):
     def form_valid(self, form):
         '''This method is called when valid form data has been POSTed. '''
         print('form is valid')
-        print(form.data)
         print(form.cleaned_data)
+        form.instance.slug = slugify(form.cleaned_data['title'])
         form.instance.author = self.request.user
+        
         return super().form_valid(form)
         
     def form_invalid(self, form):
         print('form is invalid')
-        '''
-        print(form.data)
-        print(form.cleaned_data)
-        '''
         response = super().form_invalid(form)
         return response
 
@@ -77,7 +75,6 @@ class RecipeUpdateView(UpdateView):
     def form_valid(self, form):
         '''This method is called when valid form data has been POSTed. '''
         print('form is valid')
-        #form.instance.date_last_edited = 
         return super().form_valid(form)
 
 class RecipeDeleteView(DeleteView):
