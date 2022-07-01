@@ -18,7 +18,7 @@
     </div>
     {% if recipe.author ==  user or user.is_staff == True %}
     <div>
-        <a href="{% url 'recipe-update' recipe.pk %}">Edit</a>
+        <a href="{% url 'recipe-update' recipe.slug %}">Edit</a>
     </div>
     {% endif %}
 {% endblock content %}

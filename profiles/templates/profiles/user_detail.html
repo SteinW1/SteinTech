@@ -2,6 +2,7 @@
 {% block content %}
     <p>test for user_detail.html</p>
     <p>current use is {{ user.username }}</p>
-
-    <a href="{% url 'user-logout' %}">Logout</a>
+    <p>{{ user.slug }}</p>
+    <a href="{% url 'profile-update' user.slug %}">Update</a>
+    <a href="{% url 'profile-logout' %}">Logout</a>
 {% endblock content %}

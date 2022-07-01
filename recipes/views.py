@@ -70,11 +70,6 @@ class RecipeUpdateView(UpdateView):
         'note',
     ]
     template_name_suffix = '_update_form'
-    
-    def form_valid(self, form):
-        '''This method is called when valid form data has been POSTed. '''
-        print('form is valid')
-        return super().form_valid(form)
 
 class RecipeDeleteView(DeleteView):
     model = Recipe

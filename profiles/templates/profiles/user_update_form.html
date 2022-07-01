@@ -4,6 +4,5 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="Submit" name="Submit" value="Update">Update</button>
-        <a href="{% url 'recipe-delete' recipe.slug %}">Delete</a>
     </form>
 {% endblock content %}
