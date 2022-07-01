@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'recipes',
     'contact',
-    'users',
+    'profiles',
+    
 ]
 
 MIDDLEWARE = [
@@ -126,4 +127,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'profiles.User'

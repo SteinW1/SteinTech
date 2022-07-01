@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import RecipeForm
 from .models import Recipe, Ingredient
 
 def home(request):
@@ -28,7 +27,7 @@ class RecipeListView(ListView):
     model = Recipe
     paginate_by = 10
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Recipe
 
     # fields to be displayed in the form

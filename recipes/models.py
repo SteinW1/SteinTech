@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from users.models import User
+from profiles.models import User
 
 class Recipe(models.Model):
     primary_key = models.AutoField(primary_key=True)

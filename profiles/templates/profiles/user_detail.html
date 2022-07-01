@@ -1,4 +1,7 @@
 {% extends "recipes/base.html" %}
 {% block content %}
     <p>test for user_detail.html</p>
+    <p>current use is {{ user.username }}</p>
+
+    <a href="{% url 'user-logout' %}">Logout</a>
 {% endblock content %}
