@@ -52,5 +52,6 @@ class UserUpdateView(UpdateView):
     model = User
     fields = [
         'username',
+        'email',
     ]
     template_name_suffix = '_update_form'
