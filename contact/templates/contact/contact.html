@@ -11,18 +11,6 @@
             <h1>Contact</h1>
             <p>Send a message by filling out the form below.</p>
         </div>
-        
-        {% if messages %}
-            <ul class="contact-form-alert_message {{ message.tags }}">
-                {% for message in messages %}
-                    {% if message.tags == 'success' %}
-                        <script>alertMessage("{{ message }}");</script>
-                    {% elif message.tags == "error" %}
-                        <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>- {{ message|striptags }}</p>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        {% endif %}
     
         <div class="form-container">
             <form method="post">
