@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.utils.text import slugify
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Recipe, Ingredient
@@ -17,10 +16,7 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(RecipeDetailView, self).get_context_data(*args, **kwargs)
-        
-        #add a QuerySet of all recipes
         context['ingredients'] = Ingredient.objects.all()
-        
         return context
 
 class RecipeListView(ListView):
@@ -29,8 +25,6 @@ class RecipeListView(ListView):
 
 class RecipeCreateView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Recipe
-
-    # fields to be displayed in the form
     fields = ['title',
         'source',
         'difficulty',
@@ -46,11 +40,7 @@ class RecipeCreateView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
 
     def form_valid(self, form):
         '''This method is called when valid form data has been POSTed. '''
-        print('form is valid')
-        print(form.cleaned_data)
-        form.instance.slug = slugify(form.cleaned_data['title'])
         form.instance.author = self.request.user
-        
         return super().form_valid(form)
         
     def form_invalid(self, form):

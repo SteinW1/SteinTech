@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.urls import reverse
 from profiles.models import User
 
@@ -24,6 +25,10 @@ class Recipe(models.Model):
     cook_time = models.DurationField()
     note = models.TextField(blank=True, default='')
     
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('recipe-detail', kwargs={'slug': self.slug})
     

@@ -1,9 +1,9 @@
+from requests import post as send_post_request
 from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
 from django.views.generic import FormView
 from .forms import ContactForm
-from requests import post as send_post_request 
 
 class ContactFormView(FormView):
     form_class = ContactForm
