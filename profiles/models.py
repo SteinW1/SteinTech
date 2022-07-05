@@ -1,3 +1,4 @@
+from random import randint
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
@@ -8,6 +9,8 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.username)
+        while self.__class__.objects.filter(slug=self.slug).exists():
+            self.slug += str(randint(0,9))
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe, Ingredient, RecipeDirection
+from .models import Recipe, Ingredient, RecipeStep
 
 admin.site.site_header = 'SteinTech Admin'
 admin.site.index_title = 'Site Information and Data'
@@ -9,12 +9,12 @@ class IngredientInline(admin.TabularInline):
     model = Ingredient
     extra = 1
 
-class DirectionInline(admin.TabularInline):
-    model = RecipeDirection
+class RecipeStepInline(admin.TabularInline):
+    model = RecipeStep
     extra = 1
 
 class RecipeAdmin(admin.ModelAdmin):
-    inlines = [IngredientInline, DirectionInline]
+    inlines = [IngredientInline, RecipeStepInline]
     raw_id_fields = ['author']
     readonly_fields = [
         'slug',

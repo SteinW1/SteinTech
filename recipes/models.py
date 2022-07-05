@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from profiles.models import User
+from .validators import validate_unit_of_measurement
 
 class Recipe(models.Model):
     primary_key = models.AutoField(primary_key=True)
@@ -35,12 +36,12 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.CharField(max_length=30)
-    unit_of_measurement = models.CharField(max_length=10)
+    unit_of_measurement = models.CharField(max_length=10, validators=[validate_unit_of_measurement])
     quantity = models.CharField(max_length=10)
     
     def __str__(self):
         return self.ingredient
 
-class RecipeDirection(models.Model):
+class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    direction_text = models.TextField(blank = True, default=None)
+    recipe_step_text = models.TextField(blank = True, default=None)

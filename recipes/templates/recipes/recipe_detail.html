@@ -18,9 +18,9 @@
         </ul>
         <h3>Directions</h3>
         <ul>
-            {% for direction in recipe.recipedirection_set.all %}
+            {% for step in recipe.recipestep_set.all %}
                 <li>
-                    {{ direction.direction_text }}             
+                    {{ step.recipe_step_text }}             
                 </li>
             {% empty %}
                 <p>This recipe has no directions yet.</p>

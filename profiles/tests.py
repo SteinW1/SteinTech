@@ -8,37 +8,15 @@ class UserModelTests(TestCase):
             'username':'test_user',
             'email':'test_email@stein.com',
             'password':'124qew34q',
-            'slug':'test_user',
         }
-
-    def test_user_object_create(self):
-        '''Tests if an object can be created with the User model'''
-        try:
-            self.test_user = User.objects.create_user(
-                self.test_user_info['username'],
-                self.test_user_info['email'],
-                self.test_user_info['password'],
-                slug=self.test_user_info['slug'],
-            )
-        except Exception as e:
-            print(f'Object could not be created with the User model. ERROR: {e}')
-        self.assertIsNotNone(self.test_user)
 
     def test_unique_username_required(self):
         '''Tests that multiple users can't be created with the same username'''     
         try:
-            test_username_1 = User.objects.create_user(
-                    'test_username',
-                    self.test_user_info['email'],
-                    self.test_user_info['password'],
-                    'test_slug_1',
-                )
-            test_username_2 = User.objects.create_user(
-                    'test_username',
-                    self.test_user_info['email'],
-                    self.test_user_info['password'],
-                    'test_slug_2',
-                )
+            not_unique_username1 = User.objects.create_user(
+                'not_unique_username', self.test_user_info['password'])
+            not_unique_username2 = User.objects.create_user(
+                'not_unique_username', self.test_user_info['password'])
         except:
             duplicate_username_created = False
         else:
@@ -47,24 +25,22 @@ class UserModelTests(TestCase):
 
     def test_unique_slug_required(self):
         '''Tests that multiple users can't be created with the same slug'''       
+        test_slug_1 = User.objects.create_user(
+            'test_username_1', self.test_user_info['password'], slug='test_duplicate_slug'
+        )
+        test_slug_2 = User.objects.create_user(
+            'test_username_2', self.test_user_info['password'], slug='test_duplicate_slug'
+        )
+        self.assertNotEqual(test_slug_1.slug, test_slug_2.slug)
+
+    def test_user_object_create(self):
+        '''Tests if an object can be created with the User model'''
         try:
-            test_slug_1 = User.objects.create_user(
-                    'test_username_1',
-                    self.test_user_info['email'],
-                    self.test_user_info['password'],
-                    'test_slug',
-                )
-            test_slug_2 = User.objects.create_user(
-                    'test_username_2',
-                    self.test_user_info['email'],
-                    self.test_user_info['password'],
-                    'test_slug',
-                )
-        except:
-            duplicate_slug_created = False
-        else:
-            duplicate_slug_created = True
-        self.assertFalse(duplicate_slug_created)
+            self.test_user = User.objects.create_user(
+                self.test_user_info['username'], self.test_user_info['password'])
+        except Exception as e:
+            print(f'Object could not be created with the User model. ERROR: {e}')
+        self.assertIsNotNone(self.test_user)
 
 
 class ProfileFormsTests(TestCase):
