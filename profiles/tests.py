@@ -2,15 +2,17 @@ from django.test import TestCase, Client
 from .models import User
 from .forms import UserRegisterForm
 
-class UserModelTests(TestCase):    
-    def test_user_object_create(self):
-        '''Tests if an object can be created with the User model'''
+class UserModelTests(TestCase):
+    def setUp(self):
         self.test_user_info = {
             'username':'test_user',
-            'password':'124qew34q',
             'email':'test_email@stein.com',
+            'password':'124qew34q',
             'slug':'test_user',
         }
+
+    def test_user_object_create(self):
+        '''Tests if an object can be created with the User model'''
         try:
             self.test_user = User.objects.create_user(
                 self.test_user_info['username'],
@@ -21,6 +23,49 @@ class UserModelTests(TestCase):
         except Exception as e:
             print(f'Object could not be created with the User model. ERROR: {e}')
         self.assertIsNotNone(self.test_user)
+
+    def test_unique_username_required(self):
+        '''Tests that multiple users can't be created with the same username'''     
+        try:
+            test_username_1 = User.objects.create_user(
+                    'test_username',
+                    self.test_user_info['email'],
+                    self.test_user_info['password'],
+                    'test_slug_1',
+                )
+            test_username_2 = User.objects.create_user(
+                    'test_username',
+                    self.test_user_info['email'],
+                    self.test_user_info['password'],
+                    'test_slug_2',
+                )
+        except:
+            duplicate_username_created = False
+        else:
+            duplicate_username_created = True
+        self.assertFalse(duplicate_username_created)
+
+    def test_unique_slug_required(self):
+        '''Tests that multiple users can't be created with the same slug'''       
+        try:
+            test_slug_1 = User.objects.create_user(
+                    'test_username_1',
+                    self.test_user_info['email'],
+                    self.test_user_info['password'],
+                    'test_slug',
+                )
+            test_slug_2 = User.objects.create_user(
+                    'test_username_2',
+                    self.test_user_info['email'],
+                    self.test_user_info['password'],
+                    'test_slug',
+                )
+        except:
+            duplicate_slug_created = False
+        else:
+            duplicate_slug_created = True
+        self.assertFalse(duplicate_slug_created)
+
 
 class ProfileFormsTests(TestCase):
     def test_UserRegisterForm(self):
@@ -37,6 +82,7 @@ class ProfileFormsTests(TestCase):
         except Exception as e:
             print(f'Couldn\'t create form. ERROR: {e}')
         self.assertTrue(form.is_valid())
+
 
 class ProfileViewsTests(TestCase):
     def setUp(self):

@@ -4,7 +4,7 @@
 <ul>
     {% for recipe in object_list %}
         {% if recipe %}
-        <a href="{% url 'recipe-detail' recipe.slug %}">{{ recipe.title }}</a><br>
+            <a href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a><br>
         {% endif %}
     {% empty %}
         <p>No recipes yet.</p><br>

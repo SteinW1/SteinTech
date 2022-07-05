@@ -40,3 +40,7 @@ class Ingredient(models.Model):
     
     def __str__(self):
         return self.ingredient
+
+class RecipeDirection(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    direction_text = models.TextField(blank = True, default=None)
