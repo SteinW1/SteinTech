@@ -1,11 +1,12 @@
 {% extends "recipes/base.html" %}
 {% block content %}
+    {% load humanize %}
     <div>
         <h1>{{ recipe.title }}</h1>
         <p>{{ recipe.difficulty }}</p>
         <p>Posted By: {{ recipe.author }}</p>
         <p>Prep Time: {{ recipe.prep_time }} Cook Time: {{ recipe.cook_time }}</p>
-        <p>{{ recipe.date_last_edited }}</p>
+        <p>{{ recipe.date_last_edited|naturaltime }}</p>
         <h3>Ingredients</h3>
         <ul>
             {% for ingredient in recipe.ingredient_set.all %}

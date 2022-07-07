@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from profiles.models import User
-from .validators import validate_unit_of_measurement
+from .utils import number_str_to_float
+from .validators import validate_unit_of_measurement, validate_quantity_measurement
 
 class Recipe(models.Model):
     primary_key = models.AutoField(primary_key=True)
@@ -35,10 +36,19 @@ class Recipe(models.Model):
     
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    ingredient = models.CharField(max_length=30)
-    unit_of_measurement = models.CharField(max_length=10, validators=[validate_unit_of_measurement])
-    quantity = models.CharField(max_length=10)
-    
+    ingredient_name = models.CharField(max_length=30)
+    unit_of_measurement = models.CharField(max_length=12, validators=[validate_unit_of_measurement])
+    quantity = models.CharField(max_length=10, validators=[validate_quantity_measurement])
+    quantity_float = models.FloatField(null=True, default=None)
+
+    def save(self, *args, **kwargs):
+        test_float, conversion_success = number_str_to_float(self.quantity)
+        if conversion_success:
+            self.quantity_float = test_float
+        else:
+            self.quantity_float = None
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.ingredient
 

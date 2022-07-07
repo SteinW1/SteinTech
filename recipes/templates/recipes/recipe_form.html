@@ -2,9 +2,13 @@
 {% block content %}
     <form method="POST" name="recipe_form" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
         {{ formset.non_form_errors }}
-        {{ formset.errors }}
+        {% for field in form %}
+            <div>
+                {% if field.errors %}<p>{{ field.errors }}</p>{% endif %}
+                <p><label>{{ field.label }}: </label>{{ field }}</p>
+            </div>
+        {% endfor %}
         <button type="Submit" name="Submit" value="Submit">Submit</button>
     </form>
 {% endblock content %}

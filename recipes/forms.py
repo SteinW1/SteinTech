@@ -1,56 +1,23 @@
-from django import forms
-from recipes.models import Recipe, Ingredient
+from django.forms import ModelForm, Textarea, inlineformset_factory
+from recipes.models import Ingredient, Recipe, RecipeStep
 
-class RecipeForm(forms.Form):
-    recipe_title = forms.CharField(
-        required=True,
-        label='Recipe Title',
-        widget=forms.TextInput(
-            attrs={'placeholder':'What\'s the recipe\'s name?'
-                },
-        ))
-    
-    source = forms.CharField(
-        required=True,
-        label='Source',
-        widget=forms.TextInput(
-            attrs={'placeholder':'Where did this recipe come from?'
-                },
-        ))
-        
-    difficulty = forms.CharField(
-        required=True,
-        label='Difficulty',
-        widget=forms.RadioSelect(
-            choices=Recipe.difficulty_choices,
-            attrs={
-                },
-        ))
-        
-    servings = forms.DecimalField(
-            required=True,
-            label='servings',
-            max_digits=4,
-            decimal_places=2
-        )
-        
-    cook_time = forms.DecimalField(
-            required=True,
-            label='cook_time',
-            max_digits=4,
-            decimal_places=2
-        )
-    
-    prep_time = forms.DecimalField(
-            required=True,
-            label='prep_time',
-            max_digits=4,
-            decimal_places=2
-        )
 
-    note = forms.CharField(
-        required=True,
-        label='notes',
-        widget=forms.Textarea(
-            attrs={'placeholder':'Put recipe notes here.'}
-        ))
+class RecipeForm(ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['title', 'difficulty', 'servings', 'cook_time', 'prep_time', 'note']
+        widgets = {
+            'note': Textarea(attrs={'cols': 60, 'rows': 4}),
+        }
+
+
+class RecipeStepForm(ModelForm):   
+    class Meta:
+        model = RecipeStep
+        fields = ['recipe_step_text',]
+
+
+class IngredientForm(ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ['ingredient_name', 'unit_of_measurement', 'quantity',]

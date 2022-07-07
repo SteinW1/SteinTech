@@ -8,6 +8,9 @@ admin.site.site_title = 'SteinTech Admin'
 class IngredientInline(admin.TabularInline):
     model = Ingredient
     extra = 1
+    readonly_fields = [
+        'quantity_float',
+    ]
 
 class RecipeStepInline(admin.TabularInline):
     model = RecipeStep
