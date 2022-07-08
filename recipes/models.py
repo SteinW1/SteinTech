@@ -34,6 +34,9 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse('recipe-detail', kwargs={'slug': self.slug})
     
+    def __str__(self):
+        return self.slug
+    
 class Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient_name = models.CharField(max_length=30)
@@ -50,7 +53,7 @@ class Ingredient(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.ingredient
+        return self.ingredient_name
 
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

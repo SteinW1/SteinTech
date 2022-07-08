@@ -1,10 +1,11 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.forms import inlineformset_factory
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
+from .forms import RecipeForm, RecipeIngredientFormset, RecipeStepFormset
 from .models import Recipe, Ingredient
-from .forms import RecipeForm
+
 
 def home(request):
     context = {
@@ -32,19 +33,46 @@ class RecipeCreateView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Recipe
     form_class = RecipeForm
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+    def get(self, request):
+        super(RecipeCreateView, self).get(request)
+        self.context = self.get_context_data()
+        self.context['RecipeIngredientFormset'] = RecipeIngredientFormset()
+        self.context['RecipeStepFormset'] = RecipeStepFormset()
+        return render(request, 'recipes/recipe_form.html' , self.context)
 
-    def form_valid(self, form):
-        '''This method is called when valid form data has been POSTed. '''
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-        
-    def form_invalid(self, form):
-        print('form is invalid')
-        response = super().form_invalid(form)
-        return response
+    def post(self, request):
+        RecipeForm = self.get_form()
+        if RecipeForm.is_valid():
+            return self.form_valid(RecipeForm)
+        else:
+            self.object = None
+            return self.form_invalid(RecipeForm)
+
+    def form_valid(self, RecipeForm):
+        RecipeForm.instance.author = self.request.user
+        self.object = RecipeForm.save(commit=False)
+        IngredientFormset = RecipeIngredientFormset(self.request.POST, instance=self.object)
+        StepFormset = RecipeStepFormset(self.request.POST, instance=self.object)
+        if IngredientFormset.is_valid() and StepFormset.is_valid():
+            RecipeForm.save()
+            IngredientFormset.save()
+            StepFormset.save()
+            return redirect(self.object.get_absolute_url())
+        else:
+            for error in IngredientFormset.errors:
+                messages.error(self.request, f'{error}')
+            for error in StepFormset.errors:
+                messages.error(self.request, f'{error}')
+            return self.form_invalid(RecipeForm)
+
+    def form_invalid(self, RecipeForm):
+        self.context = self.get_context_data()
+        self.context['RecipeForm'] = RecipeForm
+        self.context['RecipeIngredientFormset'] = RecipeIngredientFormset()
+        self.context['RecipeStepFormset'] = RecipeStepFormset()
+        for error in RecipeForm.errors:
+            messages.error(self.request, f'{error}')
+        return render(self.request, 'recipes/recipe_form.html', self.context)
 
 
 class RecipeUpdateView(UpdateView, LoginRequiredMixin):

@@ -21,3 +21,12 @@ class IngredientForm(ModelForm):
     class Meta:
         model = Ingredient
         fields = ['ingredient_name', 'unit_of_measurement', 'quantity',]
+
+
+RecipeIngredientFormset = inlineformset_factory(
+    Recipe, Ingredient, fields=('ingredient_name','unit_of_measurement','quantity')
+    )
+
+RecipeStepFormset = inlineformset_factory(
+    Recipe, RecipeStep, fields=('recipe_step_text',)
+    )
