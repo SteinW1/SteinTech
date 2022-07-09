@@ -9,6 +9,7 @@ class Recipe(models.Model):
     primary_key = models.AutoField(primary_key=True)
     title = models.CharField(max_length=150, null=False, unique=True)
     slug = models.SlugField(null=False, unique=True)
+    approved_by_staff = models.BooleanField(default=False)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True)

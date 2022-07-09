@@ -22,6 +22,12 @@ class RecipeDetailView(DetailView):
 class RecipeListView(ListView):
     model = Recipe
     paginate_by = 10
+    ordering = ['-date_posted']
+
+    def get_queryset(self):
+        query = self.request.GET.get('query')
+        query_set = self.model.objects.filter(title__contains=query) if query else self.model.objects.all()
+        return query_set
 
 
 class RecipeCreateView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
@@ -30,12 +36,10 @@ class RecipeCreateView(CreateView, LoginRequiredMixin, UserPassesTestMixin):
     
     def get_context_data(self, **kwargs):
         context = super(RecipeCreateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['RecipeIngredientFormset'] = RecipeIngredientFormset(self.request.POST) 
-            context['RecipeStepFormset'] = RecipeStepFormset(self.request.POST)
-        else:
-            context['RecipeIngredientFormset'] = RecipeIngredientFormset()
-            context['RecipeStepFormset'] = RecipeStepFormset()
+        context['RecipeIngredientFormset'] = RecipeIngredientFormset(
+            self.request.POST if self.request.method=="POST" else None, instance=self.object) 
+        context['RecipeStepFormset'] = RecipeStepFormset(
+            self.request.POST if self.request.method=="POST" else None, instance=self.object)
         return context
 
     def form_valid(self, RecipeForm):
@@ -63,13 +67,10 @@ class RecipeUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super(RecipeUpdateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['RecipeIngredientFormset'] = RecipeIngredientFormset(self.request.POST, instance=self.object) 
-            context['RecipeStepFormset'] = RecipeStepFormset(self.request.POST, instance=self.object)
-
-        else:
-            context['RecipeIngredientFormset'] = RecipeIngredientFormset(instance=self.object) 
-            context['RecipeStepFormset'] = RecipeStepFormset(instance=self.object)
+        context['RecipeIngredientFormset'] = RecipeIngredientFormset(
+            self.request.POST if self.request.method=="POST" else None, instance=self.object) 
+        context['RecipeStepFormset'] = RecipeStepFormset(
+            self.request.POST if self.request.method=="POST" else None, instance=self.object)
         return context
 
     def form_valid(self, RecipeForm):

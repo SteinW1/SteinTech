@@ -1,13 +1,18 @@
 {% extends "recipes/base.html" %}
 {% block content %}
 <h1>Recipes</h1>
+<form>
+    <input type="text" name="query" />
+    <button type="submit">Search</button>
+    </p>
+</form>
 <ul>
     {% for recipe in object_list %}
         {% if recipe %}
             <a href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a><br>
         {% endif %}
     {% empty %}
-        <p>No recipes yet.</p><br>
+        <p>No recipes found.</p><br>
     {% endfor %}
 </ul>
 <div class="pagination">

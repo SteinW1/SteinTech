@@ -5,7 +5,7 @@ from recipes.models import Ingredient, Recipe, RecipeStep
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'difficulty', 'servings', 'cook_time', 'prep_time', 'note']
+        fields = ['title', 'source', 'difficulty', 'servings', 'cook_time', 'prep_time', 'note']
         widgets = {
             'note': Textarea(attrs={'cols': 60, 'rows': 4}),
         }

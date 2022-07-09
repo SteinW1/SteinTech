@@ -1,9 +1,6 @@
-make recipes searchable
 add saving recipes to user list feature
 fix pagination UI on recipes list view
-add feature to flag new recipes for admin review
-allow recipes to be sorted by date posted
+add list of unapproved recipes in admin
 track number of reCaptcha calls per month
 add tests that work with reCaptcha forms
 make tests for recipeingredients and recipesteps
-add custom update view that works with inline forms
