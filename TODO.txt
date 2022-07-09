@@ -6,3 +6,4 @@ allow recipes to be sorted by date posted
 track number of reCaptcha calls per month
 add tests that work with reCaptcha forms
 make tests for recipeingredients and recipesteps
+add custom update view that works with inline forms
