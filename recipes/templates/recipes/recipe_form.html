@@ -2,48 +2,50 @@
 {% block content %}
     <form method="POST" name="recipe_form" enctype="multipart/form-data">
         {% csrf_token %}
+        <div class="recipe-form-input-container">
 
-        <div>
-            {% for field in form %}
-            <div>
-                {% if field.errors %}<p>{{ field.errors }}</p>{% endif %}
-                <p><label>{{ field.label }}: </label>{{ field }}</p>
+            <div class="recipeform-container">
+                {% for field in form %}
+                    <div>
+                        {% if field.errors %}<p>{{ field.errors }}</p>{% endif %}
+                        <p><label>{{ field.label }}: </label>{{ field }}</p>
+                    </div>
+                {% endfor %} 
             </div>
-            {% endfor %} 
-        </div>
-
-        <div>
-            {{ RecipeIngredientFormset.management_form }}
-            {% if RecipeIngredientFormset.errors %}
-                {{ RecipeIngredientFormset.errors }}
-            {% endif %}
-            {{ RecipeIngredientFormset.non_form_errors }}
-            {% for IngredientForm in RecipeIngredientFormset %}
-                <div>
-                    {% if IngredientForm.errors %}
-                    <p>{{ IngredientForm.errors }}</p>
-                    {% endif %}
-                    <p>{{ IngredientForm }}</p>
-                </div>
-            {% endfor %}
-        </div>
-        
-        <div>
-            {{ RecipeStepFormset.management_form }}
-            {% if RecipeStepFormset.errors %}
-                {{ RecipeStepFormset.errors }}
-            {% endif %}
-            {{ RecipeStepFormset.non_form_errors }}
-            {% for StepForm in RecipeStepFormset %}
-                <div>
-                    {% if StepForm.errors %}
-                    <p>{{ StepForm.errors }}</p>
-                    {% endif %}
-                    <p>{{ StepForm }}</p>
-                </div>
-            {% endfor %}
-        </div>
             
-        <button type="Submit" name="Submit" value="Submit">Submit</button>
+            <div class="recipeingredientformset-container">
+                {{ RecipeIngredientFormset.management_form }}
+                {% if RecipeIngredientFormset.errors %}
+                {{ RecipeIngredientFormset.errors }}
+                {% endif %}
+                {{ RecipeIngredientFormset.non_form_errors }}
+                {% for IngredientForm in RecipeIngredientFormset %}
+                    <div>
+                        {% if IngredientForm.errors %}
+                        <p>{{ IngredientForm.errors }}</p>
+                        {% endif %}
+                        <p>{{ IngredientForm }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="recipestepformset-container">
+                {{ RecipeStepFormset.management_form }}
+                {% if RecipeStepFormset.errors %}
+                {{ RecipeStepFormset.errors }}
+                {% endif %}
+                {{ RecipeStepFormset.non_form_errors }}
+                {% for StepForm in RecipeStepFormset %}
+                    <div>
+                        {% if StepForm.errors %}
+                        <p>{{ StepForm.errors }}</p>
+                        {% endif %}
+                        <p>{{ StepForm }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <button type="Submit" name="Submit" value="Submit">Submit</button>
+        </div>
     </form>
 {% endblock content %}
