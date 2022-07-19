@@ -1,17 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from .forms import RecipeForm, RecipeIngredientFormset, RecipeStepFormset
 from .models import Recipe
-
-
-def home(request):
-    context = {
-        'recipes': Recipe.objects.all(),
-    }
-    return render(request, 'recipes/home.html', context)
 
 
 class RecipeDetailView(DetailView):

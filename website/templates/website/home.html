@@ -1,7 +1,6 @@
-{% extends "recipes/base.html" %}
+{% extends "website/base.html" %}
 {% block content %}
     {% if user.is_authenticated %}
         <a href="{{ user.get_absolute_url }}">{{ user }}'s Profile</a><br>
-        <a href="{% url 'recipe-create' %}">New Recipe</a><br>
     {% endif %}
 {% endblock content %}
